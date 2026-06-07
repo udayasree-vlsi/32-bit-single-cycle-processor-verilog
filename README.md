@@ -219,9 +219,9 @@ This confirms successful processor-level integration.
 
 ## Author
 
-**Udaya Sree**  
+**Bellam Udaya Sree**  
 B.Tech in Electronics & Communication Engineering  
-JNTUA College of Engineering, Ananthapuramu
+JNTUA College of Engineering, Ananthapuramu, Andhra Pradesh
 
 ---
 
