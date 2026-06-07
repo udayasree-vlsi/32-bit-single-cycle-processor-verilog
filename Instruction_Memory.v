@@ -1,0 +1,24 @@
+module InstructionMemory(
+
+    input [31:0] addr,
+    output [31:0] instruction
+
+);
+
+reg [31:0] memory [0:255];
+
+initial begin
+    memory[0] = 32'h00430800;
+    memory[1] = 32'h00430800;
+    memory[2] = 32'h00430800;
+    memory[3] = 32'h00430800;
+    memory[4] = 32'h00430800;
+    memory[5] = 32'h00430800;
+    memory[6] = 32'h00430800;
+    memory[7] = 32'h00430800;
+
+end
+
+assign instruction = memory[addr[9:2]];
+
+endmodule

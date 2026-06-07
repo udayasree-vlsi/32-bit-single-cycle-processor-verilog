@@ -1,0 +1,33 @@
+`timescale 1ns / 1ps
+
+module InstructionMemory_tb;
+
+reg [31:0] addr;
+wire [31:0] instruction;
+
+InstructionMemory uut(
+
+    .addr(addr),
+    .instruction(instruction)
+
+);
+
+initial begin
+
+    addr = 0;
+    #10;
+
+    addr = 4;
+    #10;
+
+    addr = 8;
+    #10;
+
+    addr = 12;
+    #10;
+
+    $stop;
+
+end
+
+endmodule
