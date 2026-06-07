@@ -167,6 +167,9 @@ The integrated processor successfully connects all modules and executes instruct
 This confirms successful processor-level integration.
 
 ---
+### RTL Architecture Diagram
+
+![Processor Architecture](waveforms/Processor_Architecture.png)
 
 ## Tools Used
 
