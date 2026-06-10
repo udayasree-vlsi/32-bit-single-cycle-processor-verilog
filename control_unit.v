@@ -1,6 +1,10 @@
 module control_unit(
-    input [5:0] opcode,output reg reg_write, output reg mem_read,
-    output reg mem_write, output reg alu_src,output reg [1:0] alu_op
+    input [5:0] opcode,
+    output reg reg_write,
+    output reg mem_read,
+    output reg mem_write, 
+    output reg alu_src,
+    output reg [1:0] alu_op
 );
 always @(*) begin
     case(opcode)
@@ -33,5 +37,4 @@ always @(*) begin
             alu_op = 2'b00;
         end
     endcase
-end
 endmodule
