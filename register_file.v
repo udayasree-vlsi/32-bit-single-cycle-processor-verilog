@@ -29,12 +29,14 @@ always @(posedge clk) begin
 end
 integer i;
 
-initial begin
-    for(i=0;i<32;i=i+1)
-        registers[i] = 0;
 
-    registers[2] = 15;
-    registers[3] = 25;
+    initial begin
+    for(i=0; i<32; i=i+1)
+        registers[i] = 32'd0;
+    registers[1] = 32'd10;
+    registers[2] = 32'd20;
+    registers[3] = 32'd30;
+    registers[4] = 32'd40;
 end
 
 endmodule
