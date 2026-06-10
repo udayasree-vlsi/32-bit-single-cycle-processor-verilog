@@ -71,7 +71,7 @@ This confirms correct instruction address generation.
 
 The Instruction Memory outputs instructions corresponding to supplied addresses.
 
-![Instruction Memory](waveforms/instruction_Memory_waveform.png)
+![Instruction Memory](waveforms/Instruction_Memory_waveform.png)
 
 ### Observation
 
@@ -88,7 +88,7 @@ This verifies correct instruction fetching functionality.
 
 The decoder extracts instruction fields from fetched instructions.
 
-![Decoder](waveforms/Instruction_Decoder_waveform.png)
+![Decoder](waveforms/Decoder_waveform.png)
 
 ### Observation
 
@@ -156,7 +156,7 @@ The waveform confirms correct ALU operation selection based on control signals.
 
 The Register File performs register read and write operations correctly.
 
-![Register File](waveforms/Register_File_waveform.png)
+![Register File](waveforms/register_file_waveform.png)
 
 ### Observation
 
@@ -171,7 +171,7 @@ The Register File performs register read and write operations correctly.
 
 The ALU performs arithmetic and logical operations using inputs from the Register File.
 
-![ALU](waveforms/ALU_waveform.png)
+![ALU](waveforms/aluu_waveform.png)
 
 ### Observation
 
@@ -191,7 +191,7 @@ Waveform outputs verify correct ALU functionality.
 
 The Data Memory performs read and write operations using control signals from the Control Unit.
 
-![Data Memory](waveforms/Data_Memory_waveform.png)
+![Data Memory](waveforms/DataMemory_waveform.png)
 
 ### Observation
 
