@@ -1,8 +1,10 @@
-## 32-Bit Single-Cycle Processor in Verilog
+# 32-Bit Single-Cycle Processor in Verilog
 
 ## Overview
 
-This project implements a 32-bit Single-Cycle Processor using Verilog HDL. The processor executes instructions in a single clock cycle and integrates key datapath components such as the Program Counter, Instruction Memory, Decoder, Control Unit, Register File, ALU, and Data Memory.
+This project implements a 32-bit Single-Cycle Processor using Verilog HDL. The processor executes instructions in a single clock cycle and integrates key datapath components such as the Program Counter, Instruction Memory, Decoder, Control Unit, ALU Control Unit, Register File, ALU, and Data Memory.
+
+The processor follows a modular architecture where each hardware block is designed, simulated, and verified independently before complete processor integration.
 
 The design was developed and simulated using Xilinx Vivado.
 
@@ -10,29 +12,34 @@ The design was developed and simulated using Xilinx Vivado.
 
 ## Features
 
-- 32-bit Processor Architecture
-- Single-Cycle Execution
-- Modular Verilog Design
-- Instruction Fetch and Decode
-- Register File Operations
-- Arithmetic and Logical Operations
-- Data Memory Read/Write Operations
-- Complete Processor-Level Integration
+* 32-bit Processor Architecture
+* Single-Cycle Execution
+* Modular Verilog Design
+* Instruction Fetch and Decode
+* Control Signal Generation
+* ALU Control Logic
+* Register File Operations
+* Arithmetic and Logical Operations
+* Data Memory Read/Write Operations
+* Complete Processor-Level Integration
+* RTL Schematic Verification
+* Functional Simulation using Vivado
 
 ---
 
 ## Processor Modules
 
-| Module | Description |
-|----------|-------------|
-| Program Counter (PC) | Generates instruction addresses |
-| Instruction Memory | Stores processor instructions |
-| Instruction Decoder | Extracts opcode and register fields |
-| Control Unit | Generates control signals |
-| Register File | Stores and retrieves register values |
-| ALU | Performs arithmetic and logic operations |
-| Data Memory | Handles load/store operations |
-| Processor Top Module | Integrates all processor components |
+| Module               | Description                                    |
+| -------------------- | ---------------------------------------------- |
+| Program Counter (PC) | Generates instruction addresses                |
+| Instruction Memory   | Stores processor instructions                  |
+| Instruction Decoder  | Extracts opcode and register fields            |
+| Control Unit         | Generates processor control signals            |
+| ALU Control Unit     | Converts ALUOp signals into ALU select signals |
+| Register File        | Stores and retrieves register values           |
+| ALU                  | Performs arithmetic and logic operations       |
+| Data Memory          | Handles load/store operations                  |
+| Processor Top Module | Integrates all processor components            |
 
 ---
 
@@ -44,150 +51,210 @@ The Program Counter increments by 4 on every clock cycle, demonstrating sequenti
 
 ![PC Waveform](waveforms/PC_waveform.png)
 
-**Observation:**
-- PC values progress as:
-  - 0x00000000
-  - 0x00000004
-  - 0x00000008
-  - 0x0000000C
-  - ...
-- Confirms correct instruction address generation.
+### Observation
+
+* PC values progress as:
+
+  * 0x00000000
+  * 0x00000004
+  * 0x00000008
+  * 0x0000000C
+  * 0x00000010
+  * 0x00000014
+  * 0x00000018
+
+This confirms correct instruction address generation.
 
 ---
 
 ## 2. Instruction Memory
 
-The Instruction Memory outputs instructions corresponding to the supplied addresses.
+The Instruction Memory outputs instructions corresponding to supplied addresses.
 
 ![Instruction Memory](waveforms/instruction_Memory_waveform.png)
 
-**Observation:**
-- Address 0 → Instruction 1
-- Address 4 → Instruction 2
-- Address 8 → Instruction 3
-- Address 12 → Instruction 4
+### Observation
 
-This verifies proper instruction fetching.
+* Address 0 → Instruction 0x00430820
+* Address 4 → Instruction 0x00430822
+* Address 8 → Instruction 0x00430824
+* Address 12 → Instruction 0x00430825
+
+This verifies correct instruction fetching functionality.
 
 ---
 
 ## 3. Instruction Decoder
 
-The decoder successfully extracts instruction fields from the fetched instruction.
+The decoder extracts instruction fields from fetched instructions.
 
 ![Decoder](waveforms/Instruction_Decoder_waveform.png)
 
-**Observation:**
-- Instruction = 0x00430800
-- Opcode = 0x00
-- rs1 = 2
-- rs2 = 3
-- rd = 1
+### Observation
 
-This confirms correct decoding of instruction fields.
+For instruction:
+
+0x00430800
+
+Decoded fields:
+
+* Opcode = 0x00
+* rs1 = 2
+* rs2 = 3
+* rd = 1
+
+This confirms proper instruction decoding.
 
 ---
 
 ## 4. Control Unit
 
-The Control Unit generates control signals according to the opcode.
+The Control Unit generates control signals according to instruction opcode.
 
 ![Control Unit](waveforms/control_unit_waveform.png)
 
-**Observation:**
-- R-Type instruction enables register write.
-- LOAD instruction enables memory read.
-- STORE instruction enables memory write.
-- ALU control signals change according to instruction type.
+### Observation
+
+* R-Type instruction enables register write.
+* LOAD instruction enables memory read.
+* STORE instruction enables memory write.
+* ALUOp changes according to instruction category.
+
+Generated signals include:
+
+* RegWrite
+* MemRead
+* MemWrite
+* ALUSrc
+* ALUOp
 
 This verifies correct control signal generation.
 
 ---
 
-## 5. Register File
+## 5. ALU Control Unit
+
+The ALU Control Unit converts ALUOp signals generated by the Control Unit into ALU select signals required by the ALU.
+
+![ALU Control](waveforms/ALU_Control_waveform.png)
+
+### Observation
+
+| ALUOp  | ALU Select |
+| ------ | ---------- |
+| 00     | ADD        |
+| 01     | SUB        |
+| 10     | AND        |
+| 11     | OR         |
+| Others | XOR        |
+
+The waveform confirms correct ALU operation selection based on control signals.
+
+---
+
+## 6. Register File
 
 The Register File performs register read and write operations correctly.
 
 ![Register File](waveforms/Register_File_waveform.png)
 
-**Observation:**
-- Data value 0x00000019 is written into a register.
-- Read ports successfully retrieve stored values.
-- Register access works as expected.
+### Observation
+
+* Data value 0x00000019 is written into a register.
+* Read ports successfully retrieve stored values.
+* Dual-read architecture functions correctly.
+* Register access behaves as expected.
 
 ---
 
-## 6. Arithmetic Logic Unit (ALU)
+## 7. Arithmetic Logic Unit (ALU)
 
-The ALU performs multiple arithmetic and logical operations.
+The ALU performs arithmetic and logical operations using inputs from the Register File.
 
 ![ALU](waveforms/ALU_waveform.png)
 
-**Observation:**
+### Observation
 
-| ALU Select | Operation |
-|------------|------------|
-| 0 | Addition |
-| 1 | Subtraction |
-| 2 | AND |
-| 3 | OR |
-| 4 | XOR |
+| ALU Select | Operation   |
+| ---------- | ----------- |
+| 0          | Addition    |
+| 1          | Subtraction |
+| 2          | AND         |
+| 3          | OR          |
+| 4          | XOR         |
 
-Waveform outputs confirm correct ALU functionality.
+Waveform outputs verify correct ALU functionality.
 
 ---
 
-## 7. Data Memory
+## 8. Data Memory
 
-The Data Memory correctly performs read and write operations.
+The Data Memory performs read and write operations using control signals from the Control Unit.
 
 ![Data Memory](waveforms/Data_Memory_waveform.png)
 
-**Observation:**
-- Data is written when MemWrite is enabled.
-- Stored values are retrieved when MemRead is enabled.
-- Memory address and data outputs behave correctly.
+### Observation
+
+* Data is written when MemWrite is enabled.
+* Data is retrieved when MemRead is enabled.
+* Address and data buses function correctly.
+* Memory contents are preserved after write operations.
+
+This verifies proper memory functionality.
 
 ---
 
-## 8. Processor-Level Simulation
+## 9. Processor-Level Simulation
 
-The integrated processor successfully connects all modules and executes instructions.
+The integrated processor successfully connects all datapath components and executes instructions.
 
 ![Processor Simulation](waveforms/processor_simulation.png)
 
-**Observation:**
-- Program Counter updates correctly.
-- Instructions are fetched and decoded.
-- Control signals are generated.
-- Register values are read.
-- ALU computes results.
-- Data Memory operations function properly.
+### Observation
+
+* Program Counter updates correctly.
+* Instructions are fetched from memory.
+* Decoder extracts instruction fields.
+* Control Unit generates control signals.
+* ALU Control selects ALU operation.
+* Register File supplies operands.
+* ALU computes results.
+* Data Memory performs memory operations.
 
 This confirms successful processor-level integration.
 
 ---
-### RTL Architecture Diagram
+
+## RTL Architecture Diagram
 
 ![Processor Architecture](waveforms/Processor_Architecture.png)
 
+### Architecture Flow
+
+PC → Instruction Memory → Decoder → Control Unit → ALU Control → Register File → ALU → Data Memory
+
+The RTL schematic confirms correct hardware connectivity between all processor modules.
+
+---
+
 ## Tools Used
 
-- Verilog HDL
-- Xilinx Vivado Design Suite
-- Vivado Simulator
+* Verilog HDL
+* Xilinx Vivado Design Suite
+* Vivado Simulator
 
 ---
 
 ## Project Structure
 
-```
+```text
 32-bit-single-cycle-processor-verilog/
 │
 ├── PC.v
 ├── Instruction_Memory.v
 ├── Decoder.v
 ├── control_unit.v
+├── alu_control.v
 ├── register_file.v
 ├── aluu.v
 ├── data_memory.v
@@ -197,6 +264,7 @@ This confirms successful processor-level integration.
 ├── Instruction_Memory_tb.v
 ├── Decoder_tb.v
 ├── control_unit_tb.v
+├── alu_control_tb.v
 ├── register_file_tb.v
 ├── aluu_tb.v
 ├── data_memory_tb.v
@@ -207,10 +275,12 @@ This confirms successful processor-level integration.
 │   ├── instruction_Memory_waveform.png
 │   ├── Instruction_Decoder_waveform.png
 │   ├── control_unit_waveform.png
+│   ├── ALU_Control_waveform.png
 │   ├── Register_File_waveform.png
 │   ├── ALU_waveform.png
 │   ├── Data_Memory_waveform.png
-│   └── processor_simulation.png
+│   ├── processor_simulation.png
+│   └── Processor_Architecture.png
 │
 └── README.md
 ```
@@ -219,17 +289,20 @@ This confirms successful processor-level integration.
 
 ## Author
 
-**Bellam Udaya Sree**  
-B.Tech(3rd year) in Electronics & Communication Engineering  
+**Bellam Udaya Sree**
+B.Tech (3rd Year) – Electronics & Communication Engineering
 JNTUA College of Engineering, Ananthapuramu, Andhra Pradesh
 
 ---
 
 ## Future Improvements
 
-- Pipeline Processor Design
-- Hazard Detection Unit
-- Forwarding Unit
-- Branch and Jump Instructions
-- Cache Memory Integration
-- FPGA Implementation
+* Pipeline Processor Design
+* Hazard Detection Unit
+* Forwarding Unit
+* Branch Instructions
+* Jump Instructions
+* Cache Memory Integration
+* FPGA Implementation on Xilinx Boards
+* MIPS-Compatible Instruction Set Expansion
+* Performance Optimization and Timing Analysis
