@@ -227,7 +227,7 @@ This confirms successful processor-level integration.
 
 ## RTL Architecture Diagram
 
-![Processor Architecture](waveforms/Processor_Architecture.png)
+![Processor Architecture](waveforms/Processor_Schematic.png)
 
 ### Architecture Flow
 
