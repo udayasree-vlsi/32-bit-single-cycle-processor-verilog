@@ -1,5 +1,10 @@
 # 32-Bit Single-Cycle Processor in Verilog
 
+![Verilog](https://img.shields.io/badge/Language-Verilog-blue)
+![Vivado](https://img.shields.io/badge/Tool-Xilinx%20Vivado-green)
+![Status](https://img.shields.io/badge/Project-Completed-success)
+
+
 ## Overview
 
 This project implements a 32-bit Single-Cycle Processor using Verilog HDL. The processor executes instructions in a single clock cycle and integrates key datapath components such as the Program Counter, Instruction Memory, Decoder, Control Unit, ALU Control Unit, Register File, ALU, and Data Memory.
