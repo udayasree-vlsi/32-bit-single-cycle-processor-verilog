@@ -224,18 +224,25 @@ The integrated processor successfully connects all datapath components and execu
 This confirms successful processor-level integration.
 
 ---
+## Processor Architecture
 
-## RTL Architecture Diagram
+The following architecture diagram illustrates the datapath and control flow of the 32-Bit Single-Cycle Processor. The processor integrates the Program Counter, Instruction Memory, Decoder, Control Unit, ALU Control, Register File, ALU, and Data Memory to execute instructions in a single clock cycle.
+
+![Processor Architecture](waveforms/processor_Architecture.png)
+
+## Processor RTL Schematic
+
+The RTL schematic below shows the complete integration of the 32-bit Single-Cycle Processor, including the Program Counter, Instruction Memory, Decoder, Control Unit, ALU Control, Register File, ALU, and Data Memory.
 
 ![Processor Architecture](waveforms/Processor_Schematic.png)
 
-### Architecture Flow
-
-PC → Instruction Memory → Decoder → Control Unit → ALU Control → Register File → ALU → Data Memory
-
-The RTL schematic confirms correct hardware connectivity between all processor modules.
-
----
+**Observation:**
+- Instructions are fetched from Instruction Memory using the Program Counter.
+- The Decoder and Control Unit generate the required control signals.
+- The Register File provides operands to the ALU.
+- The ALU performs arithmetic and logical operations.
+- Data Memory supports load and store operations.
+- All modules are successfully integrated, confirming correct processor-level functionality.
 
 ## Tools Used
 
@@ -280,7 +287,8 @@ The RTL schematic confirms correct hardware connectivity between all processor m
 │   ├── ALU_waveform.png
 │   ├── Data_Memory_waveform.png
 │   ├── processor_simulation.png
-│   └── Processor_Architecture.png
+│   ├── Processor_Architecture.png
+|   └── processor_Schematic.png
 │
 └── README.md
 ```
